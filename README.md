@@ -71,7 +71,7 @@ then  Navigate to http://localhost:3000/api/tasks
 ## End To End Test
 
 ```bash
-# unit tests
+# e2e tests
 $ pnpm run test:e2e
 
 ```
