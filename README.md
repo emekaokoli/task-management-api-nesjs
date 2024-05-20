@@ -1,26 +1,55 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Task Management API
+The Task Management API is a simple RESTful API for managing tasks. It includes features such as user authentication, CRUD operations for tasks, data persistence using PostgreSQL, and input validation with Zod.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Features
+- User Authentication with JWT
+- CRUD operations for tasks
+- Input validation using Zod
+- Data persistence with PostgreSQL
+- Comprehensive API documentation with Swagger
+## Project structure
+```bash
+src
+ ┣ auth
+ ┃ ┣ dto
+ ┃ ┃ ┣ index.ts
+ ┃ ┃ ┣ login.dto.ts
+ ┃ ┃ ┗ register.dto.ts
+ ┃ ┣ auth.controller.spec.ts
+ ┃ ┣ auth.controller.ts
+ ┃ ┣ auth.module.ts
+ ┃ ┣ auth.service.spec.ts
+ ┃ ┣ auth.service.ts
+ ┃ ┗ jwt.guard.ts
+ ┣ db
+ ┃ ┣ database.module.ts
+ ┃ ┗ queries.ts
+ ┣ tasks
+ ┃ ┣ dto
+ ┃ ┃ ┣ create-task.dto.ts
+ ┃ ┃ ┣ index.ts
+ ┃ ┃ ┗ update-task.dto.ts
+ ┃ ┣ tasks.controller.spec.ts
+ ┃ ┣ tasks.controller.ts
+ ┃ ┣ tasks.gateway.ts
+ ┃ ┣ tasks.module.ts
+ ┃ ┣ tasks.service.spec.ts
+ ┃ ┗ tasks.service.ts
+ ┣ users
+ ┃ ┣ users.controller.spec.ts
+ ┃ ┣ users.controller.ts
+ ┃ ┣ users.module.ts
+ ┃ ┣ users.service.spec.ts
+ ┃ ┗ users.service.ts
+ ┣ app.controller.spec.ts
+ ┣ app.controller.ts
+ ┣ app.module.ts
+ ┣ app.service.ts
+ ┣ main.ts
+ ┣ types.d.ts
+ ┗ zod-validation.pipe.ts
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+```
 
 ## Description
 
