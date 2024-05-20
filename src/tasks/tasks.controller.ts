@@ -21,7 +21,7 @@ import { AuthenticatedRequest } from '../types';
 import { ZodValidationPipe } from '../zod-validation.pipe';
 import { CreateTaskDto, CreateTaskDtoType } from './dto/create-task.dto';
 import { CreateTaskDTo, UpdateTaskDTo } from './dto/swaggerDTO';
-import { UpdateTaskDto, UpdateTaskDtoType } from './dto/update-task.dto';
+import { UpdateTaskDtoType } from './dto/update-task.dto';
 import { TaskService } from './tasks.service';
 
 @Controller('api/tasks')
@@ -64,7 +64,6 @@ export class TaskController {
     status: 200,
     description: 'The task has been successfully updated.',
   })
-  @UsePipes(new ZodValidationPipe(UpdateTaskDto))
   @ApiBody({ type: UpdateTaskDTo })
   updateTask(
     @Param('id') id: string,

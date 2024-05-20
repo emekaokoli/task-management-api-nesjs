@@ -76,11 +76,11 @@ $ pnpm run start:prod
 
 then  Navigate to http://localhost:3000/api/tasks
 
-## Test
+## End To End Test
 
 ```bash
 # unit tests
-$ pnpm run test
+$ pnpm run test:e2e
 
 ```
 

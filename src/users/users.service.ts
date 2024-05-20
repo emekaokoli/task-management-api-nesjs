@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Pool } from 'pg';
-import { tasks } from '../db/queries';
+import { tasks } from 'src/db/queries';
 import { User } from '../types';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class UserService {
 
   async findUserByUsername(username: string): Promise<User | null> {
     const result = await this.pool.query(tasks.findByUserName, [username]);
-    return result.rows[0];
+    return result.rows[0] || null;
   }
 
   async createUser(username: string, password: string): Promise<User> {
