@@ -10,17 +10,14 @@ The Task Management API is a simple RESTful API for managing tasks. It includes 
 ## Project structure
 ```bash
 src
- src
  ┣ auth
  ┃ ┣ dto
  ┃ ┃ ┣ index.ts
  ┃ ┃ ┣ login.dto.ts
  ┃ ┃ ┣ register.dto.ts
  ┃ ┃ ┗ swaggerDto.ts
- ┃ ┣ auth.controller.spec.ts
  ┃ ┣ auth.controller.ts
  ┃ ┣ auth.module.ts
- ┃ ┣ auth.service.spec.ts
  ┃ ┣ auth.service.ts
  ┃ ┗ jwt.guard.ts
  ┣ db
@@ -33,19 +30,14 @@ src
  ┃ ┃ ┣ swaggerDto.ts
  ┃ ┃ ┗ update-task.dto.ts
  ┃ ┣ task.gateway.mock.ts
- ┃ ┣ tasks.controller.spec.ts
  ┃ ┣ tasks.controller.ts
  ┃ ┣ tasks.gateway.ts
  ┃ ┣ tasks.module.ts
- ┃ ┣ tasks.service.spec.ts
  ┃ ┗ tasks.service.ts
  ┣ users
- ┃ ┣ users.controller.spec.ts
  ┃ ┣ users.controller.ts
  ┃ ┣ users.module.ts
- ┃ ┣ users.service.spec.ts
  ┃ ┗ users.service.ts
- ┣ app.controller.spec.ts
  ┣ app.controller.ts
  ┣ app.module.ts
  ┣ app.service.ts
