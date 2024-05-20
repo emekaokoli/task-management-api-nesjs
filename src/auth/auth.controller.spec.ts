@@ -1,57 +1,71 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
-
-import { JwtService } from '@nestjs/jwt';
 import { AppModule } from '../app.module';
 import { AuthService } from './auth.service';
 
-const mockAuthService = {
-  validateUser: jest.fn().mockResolvedValue({ id: 1, username: 'testuser' }),
-  login: jest.fn().mockResolvedValue({ accessToken: 'test-token' }),
-};
-
-const mockJwtService = {
-  sign: jest.fn().mockReturnValue('test-token'),
-  verify: jest.fn().mockReturnValue({ id: 1, username: 'testuser' }),
-};
-
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
+  let authService = {
+    validateUser: jest.fn(),
+    login: jest.fn(),
+    register: jest.fn(),
+  };
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
       .overrideProvider(AuthService)
-      .useValue(mockAuthService)
-      .overrideProvider(JwtService)
-      .useValue(mockJwtService)
+      .useValue(authService)
       .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
   });
 
+  it('/api/login (POST) - success', async () => {
+    const loginResponse = {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbmUiLCJzdWIiOjQsImlhdCI6MTcxNjIwMTAyMCwiZXhwIjoxNzE2MjA0NjIwfQ.OY5g4lvPiNjaCncfYnxlybrH1cZRs2gNnguC7pekCSc',
+    };
+    authService.validateUser.mockResolvedValue(true);
+    authService.login.mockResolvedValue(loginResponse);
+
+    const response = await request(app.getHttpServer())
+      .post('/api/login')
+      .send({ username: 'jane', password: 'changeme' })
+      .expect(200);
+
+    expect(response.body).toEqual(loginResponse);
+  });
+
+  it('/api/login (POST) - failure', async () => {
+    authService.validateUser.mockResolvedValue(false);
+
+    await request(app.getHttpServer())
+      .post('/api/login')
+      .send({ username: 'jane', password: 'wrongpassword' })
+      .expect(401);
+  });
+
+  it('/api/register (POST) - success', async () => {
+    const registerResponse = {
+      id: 1,
+      username: 'jane',
+      password: 'hashedpassword',
+    };
+    authService.register.mockResolvedValue(registerResponse);
+
+    const response = await request(app.getHttpServer())
+      .post('/api/register')
+      .send({ username: 'jane', password: 'changeme' })
+      .expect(201);
+
+    expect(response.body).toEqual(registerResponse);
+  });
+
   afterAll(async () => {
     await app.close();
-  });
-
-  it('/auth/login (POST) - success', () => {
-    return request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ username: 'testuser', password: 'testpass' })
-      .expect(200)
-      .expect({
-        accessToken: 'test-token',
-      });
-  });
-
-  it('/auth/login (POST) - failure', () => {
-    mockAuthService.validateUser.mockResolvedValueOnce(null);
-    return request(app.getHttpServer())
-      .post('/auth/login')
-      .send({ username: 'testuser', password: 'wrongpass' })
-      .expect(401);
   });
 });

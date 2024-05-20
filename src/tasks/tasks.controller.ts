@@ -10,11 +10,17 @@ import {
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AuthenticatedRequest } from '../types';
 import { ZodValidationPipe } from '../zod-validation.pipe';
 import { CreateTaskDto, CreateTaskDtoType } from './dto/create-task.dto';
+import { CreateTaskDTo, UpdateTaskDTo } from './dto/swaggerDTO';
 import { UpdateTaskDto, UpdateTaskDtoType } from './dto/update-task.dto';
 import { TaskService } from './tasks.service';
 
@@ -31,6 +37,7 @@ export class TaskController {
     description: 'The task has been successfully created.',
   })
   @UsePipes(new ZodValidationPipe(CreateTaskDto))
+  @ApiBody({ type: CreateTaskDTo })
   createTask(
     @Body() createTaskDto: CreateTaskDtoType,
     @Req() req: AuthenticatedRequest,
@@ -58,15 +65,18 @@ export class TaskController {
     description: 'The task has been successfully updated.',
   })
   @UsePipes(new ZodValidationPipe(UpdateTaskDto))
+  @ApiBody({ type: UpdateTaskDTo })
   updateTask(
     @Param('id') id: string,
-    @Body() updateTaskDto: UpdateTaskDtoType,
+    @Body() { title, description, completed }: UpdateTaskDtoType,
   ) {
+    console.log({ title, description, completed });
+
     return this.taskService.updateTask(
       parseInt(id, 10),
-      updateTaskDto.title,
-      updateTaskDto.description,
-      updateTaskDto.completed,
+      title,
+      description,
+      completed,
     );
   }
 

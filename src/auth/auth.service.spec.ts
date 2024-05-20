@@ -1,29 +1,75 @@
-import { JwtService } from '@nestjs/jwt';
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as request from 'supertest';
+
+import { AppModule } from '../app.module';
+import { UserService } from '../users/users.service';
 import { AuthService } from './auth.service';
 
-describe('AuthService', () => {
-  let service: AuthService;
+describe('AuthController (e2e)', () => {
+  let app: INestApplication;
+  let authService = {
+    validateUser: jest.fn(),
+    login: jest.fn(),
+    register: jest.fn(),
+  };
+  let userService = {
+    findUserByUsername: jest.fn(),
+    createUser: jest.fn(),
+  };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthService,
-        {
-          provide: 'UserRepository',
-          useValue: {}, // Provide a mock repository or the actual repository
-        },
-        {
-          provide: JwtService,
-          useValue: {}, // Provide a mock JwtService or the actual JwtService
-        },
-      ],
-    }).compile();
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    })
+      .overrideProvider(AuthService)
+      .useValue(authService)
+      .overrideProvider(UserService)
+      .useValue(userService)
+      .compile();
 
-    service = module.get<AuthService>(AuthService);
+    app = moduleFixture.createNestApplication();
+    await app.init();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('/api/login (POST) - success', async () => {
+    const loginResponse = {
+      token:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImphbmUiLCJzdWIiOjQsImlhdCI6MTcxNjIwMTAyMCwiZXhwIjoxNzE2MjA0NjIwfQ.OY5g4lvPiNjaCncfYnxlybrH1cZRs2gNnguC7pekCSc',
+    };
+    authService.validateUser.mockResolvedValue({ id: 1, username: 'jane' });
+    authService.login.mockResolvedValue(loginResponse);
+
+    const response = await request(app.getHttpServer())
+      .post('/api/login')
+      .send({ username: 'jane', password: 'changeme' })
+      .expect(200);
+
+    expect(response.body).toEqual(loginResponse);
+  });
+
+  it('/api/login (POST) - failure', async () => {
+    authService.validateUser.mockResolvedValue(null);
+
+    await request(app.getHttpServer())
+      .post('/api/login')
+      .send({ username: 'jane', password: 'wrongpassword' })
+      .expect(401);
+  });
+
+  it('/api/register (POST) - success', async () => {
+    const registerResponse = { id: 1, username: 'jane' };
+    authService.register.mockResolvedValue(registerResponse);
+
+    const response = await request(app.getHttpServer())
+      .post('/api/register')
+      .send({ username: 'jane', password: 'changeme' })
+      .expect(201);
+
+    expect(response.body).toEqual(registerResponse);
+  });
+
+  afterAll(async () => {
+    await app.close();
   });
 });

@@ -15,7 +15,18 @@ export class ZodValidationPipe implements PipeTransform {
       return this.schema.parse(value);
     } catch (error) {
       if (error instanceof ZodError) {
-        throw new BadRequestException(error.errors);
+        const formattedErrors = error.errors.map((err) => ({
+          code: err.code,
+          expected: err.message ?? 'invalid_type',
+          received: typeof value,
+          path: err.path,
+          message: err.message,
+        }));
+        throw new BadRequestException({
+          message: formattedErrors,
+          error: 'Bad Request',
+          statusCode: 400,
+        });
       }
       throw error;
     }

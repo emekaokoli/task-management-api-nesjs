@@ -20,3 +20,9 @@ export interface AuthenticatedRequest extends Request {
     username: string;
   };
 }
+
+export interface TaskGatewayInterface {
+  emitTaskCreated(task: Task): void;
+  emitTaskUpdated(task: Task): void;
+  emitTaskDeleted(taskId: number): void;
+}

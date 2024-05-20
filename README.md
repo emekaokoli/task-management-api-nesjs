@@ -51,7 +51,6 @@ src
 
 ```
 
-
 ## Installation
 
 ```bash
@@ -77,23 +76,12 @@ $ pnpm run start:prod
 # unit tests
 $ pnpm run test
 
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
-```
-
-## Test
-To run tests:
-```
-npm run jest
 ```
 
 ## Documentation
 1. Start your server:
 ```
-npm run dev
+pnpm run dev
 ```
 2. Navigate to http://localhost:3000/api/docs to view the generated Swagger documentation.
 
