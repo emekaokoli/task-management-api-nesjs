@@ -51,9 +51,6 @@ src
 
 ```
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
 
@@ -87,16 +84,20 @@ $ pnpm run test:e2e
 $ pnpm run test:cov
 ```
 
-## Support
+## Test
+To run tests:
+```
+npm run jest
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Documentation
+1. Start your server:
+```
+npm run dev
+```
+2. Navigate to http://localhost:3000/api/docs to view the generated Swagger documentation.
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Design flow
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+![](./diagrams/data-flow.png)
