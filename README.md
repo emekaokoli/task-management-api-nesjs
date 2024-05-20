@@ -10,11 +10,13 @@ The Task Management API is a simple RESTful API for managing tasks. It includes 
 ## Project structure
 ```bash
 src
+ src
  ┣ auth
  ┃ ┣ dto
  ┃ ┃ ┣ index.ts
  ┃ ┃ ┣ login.dto.ts
- ┃ ┃ ┗ register.dto.ts
+ ┃ ┃ ┣ register.dto.ts
+ ┃ ┃ ┗ swaggerDto.ts
  ┃ ┣ auth.controller.spec.ts
  ┃ ┣ auth.controller.ts
  ┃ ┣ auth.module.ts
@@ -28,7 +30,9 @@ src
  ┃ ┣ dto
  ┃ ┃ ┣ create-task.dto.ts
  ┃ ┃ ┣ index.ts
+ ┃ ┃ ┣ swaggerDto.ts
  ┃ ┃ ┗ update-task.dto.ts
+ ┃ ┣ task.gateway.mock.ts
  ┃ ┣ tasks.controller.spec.ts
  ┃ ┣ tasks.controller.ts
  ┃ ┣ tasks.gateway.ts
@@ -69,6 +73,8 @@ $ pnpm run start:dev
 # production mode
 $ pnpm run start:prod
 ```
+
+then  Navigate to http://localhost:3000/api/tasks
 
 ## Test
 
